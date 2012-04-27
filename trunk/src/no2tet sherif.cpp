@@ -10,7 +10,6 @@
 using namespace std;
 
 int main() {
-	//sasa
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	return 0;
 }
