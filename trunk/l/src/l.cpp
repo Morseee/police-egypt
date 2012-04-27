@@ -9,6 +9,7 @@
 int main (int argc,char ** argv)
 {
 //amr
+//ans
 	test2 zz;
 	zz.set_values(1,2);
 	printf("%x %d",zz.x,zz.y);
