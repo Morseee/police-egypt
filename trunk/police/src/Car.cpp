@@ -8,7 +8,7 @@
 #include "Car.h"
 
 Car::Car() {
-	x=0;
+
 	// TODO Auto-generated constructor stub
 
 }

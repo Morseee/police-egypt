@@ -5,13 +5,20 @@
  *      Author: morsee
  */
 
-#ifndef CAR_H_
+//#ifndef CAR_H_
 #define CAR_H_
-
+typedef int point[2];
 class Car {
 
 public:
-int x;
+
+	point nwest;    // north west of the car
+	int lenth;
+	int width;
+	int direction;  // 0 right , 1 left , 2 up , 3 down
+	bool mov;       // 0 = stop , 1= moving
+
+
 	Car();
 
 
@@ -20,4 +27,4 @@ int x;
 };
 
 
-#endif /* CAR_H_ */
+//#endif /* CAR_H_ */
