@@ -7,10 +7,12 @@
 //============================================================================
 
 #include <iostream>
+#include<stdio.h>
 #include "Car.h"
 using namespace std;
 #include "Image.h"
 Image *img;
+Car *x;
 void myStyleInit()
 {
     glClearColor(1.0,1.0,1.0,0.0);
@@ -28,15 +30,28 @@ void myDisplay()
 	glPushMatrix ( ) ;
 	img->display ( 0 , 0 ) ;
 	glPopMatrix ( ) ;
+	x->Display();
 	//glFlush();
 	glutSwapBuffers ( ) ;
 
 
 
 }
+void myTimer(int val)
+{
 
+	x->swest.x++;
+	glutPostRedisplay();
+	glutTimerFunc(1 , myTimer , 0);
+
+}
 int main (int argc,char ** argv) {
-	img = new Image("t1.bmp");
+	img = new Image("background.bmp");
+	Image *img1;
+	img1 = new Image("carleft.bmp");
+
+	x = new Car(37,46,0,1,img1);
+	x->mov=1;
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	glutInit(&argc,argv);
 	    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -45,7 +60,7 @@ int main (int argc,char ** argv) {
 	    glutCreateWindow("OpenGl Template");
 
 	    myStyleInit();
-
+	    glutTimerFunc(1 , myTimer , 0);
 	    glutDisplayFunc(myDisplay);
 	    glutMainLoop();
 
