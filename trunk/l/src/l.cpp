@@ -5,7 +5,7 @@
 #include<math.h>
 #include "test2.h"
 
-
+///sasassas
 int main (int argc,char ** argv)
 {
 
