@@ -21,7 +21,7 @@ public:
 	point neast;
 	point swest;
 	point seast;
-	int lenth;
+	int height;
 	int width;
 	bool upRight; // 1 up or right , 0 down  or left
 	bool hor;// 1 right left , 0 down up
