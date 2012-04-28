@@ -62,7 +62,9 @@ void myDisplay()
 			temp=timeLine.front(); // get every car then procces on it
 			timeLine.pop();
 			temp->Display();
+
 			timeLine.push(temp);
+
 		}
 	for(int i=0 ;i<timeLine1.size() ;i++)
 		{
@@ -82,6 +84,14 @@ void avoidColl(int val)
 {
 	int prevx;
 	int prevy;
+	if(timeLine.size()>0)
+	if (timeLine.front()->swest.x > 1100)
+		timeLine.pop();
+
+	if(timeLine1.size()>0)
+		if (timeLine1.front()->swest.y > 800)
+			timeLine1.pop();
+
 	for(int i=0 ;i<timeLine.size() ;i++)
 	{
 		Car *temp;
@@ -148,7 +158,7 @@ void moveCars(int val)
 
 		}
 	glutPostRedisplay();
-	glutTimerFunc(30 , moveCars , 2);
+	glutTimerFunc(15 , moveCars , 2);
 
 }
 void RedCheck(int val)
