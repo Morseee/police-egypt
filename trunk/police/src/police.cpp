@@ -35,25 +35,9 @@ void myDisplay()
 	glMatrixMode ( GL_MODELVIEW ) ;
 	glLoadIdentity ( ) ;
 	glPointSize ( 4.0 ) ;
-
 	glPushMatrix ( ) ;
-	img->display ( 0 , 0 ) ;
-	glBegin(GL_POLYGON);			//hor.street
-		glColor3f(0.1,0.20,0.30);
-		glVertex2i( 0 , 223 );
-		glVertex2i( 0 , 281 );
-		glVertex2i( 1440  , 281 );
-		glVertex2i( 1440  , 223  );
-	glEnd();
-	glBegin(GL_POLYGON);			//hor.street
-		glColor3f(0.3,0.20,0.10);
-		glVertex2i( 675 , 0 );
-		glVertex2i( 765 , 0 );
-		glVertex2i( 765 , 900 );
-		glVertex2i( 675 , 900  );
-	glEnd();
+	//img->display ( 0 , 0 ) ;
 	glPopMatrix ( ) ;
-
 	for(int i=0 ;i<timeLine.size() ;i++)
 		{
 			Car *temp;
@@ -70,21 +54,26 @@ void myDisplay()
 }
 void avoidColl(int val)
 {
+	int prevx;
+	int prevy;
 	for(int i=0 ;i<timeLine.size() ;i++)
 	{
 		Car *temp;
-					temp=timeLine.front(); // get every car then procces on it
-					timeLine.pop();
-					++*temp; // move the object four times
-					++*temp;
-					++*temp;
-					++*temp;
-					++*temp;
-					if(temp->swest.x <1200)
-					timeLine.push(temp); // get it back
+		temp=timeLine.front(); // get every car then procces on it
+		timeLine.pop();
+		if(i!=0)
+		{
+			if(((temp->swest.x + temp->width) > (prevx-20))  )
+				temp->mov=0;
+
+		}
+		prevx=temp->swest.x;
+
+		if(temp->swest.x <1200)
+		timeLine.push(temp); // get it back
 
 	}
-
+	glutTimerFunc(30 , avoidColl , 2);
 }
 void moveCars(int val)
 {
@@ -105,7 +94,7 @@ void moveCars(int val)
 		}
 
 	glutPostRedisplay();
-	glutTimerFunc(300 , moveCars , 2);
+	glutTimerFunc(30 , moveCars , 2);
 
 }
 void RedCheck(int val)
@@ -135,7 +124,7 @@ void RedCheck(int val)
 			}
 
 	//glutPostRedisplay();
-	glutTimerFunc(300 , RedCheck , 2);
+	glutTimerFunc(30 , RedCheck , 2);
 
 }
 void t1(int val)
@@ -148,8 +137,12 @@ int main (int argc,char ** argv) {
 	img1 = new Image("carleft.bmp");
 	RED=true;
 	x = new Car(37,64,1,1,img1);
+	Car *x2 = new Car(37,63,1,1,img1);
+
 	x->mov=1;
+    x2->mov=1;
 	timeLine.push(x);
+	timeLine.push(x2);
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	glutInit(&argc,argv);
 	    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -158,9 +151,10 @@ int main (int argc,char ** argv) {
 	    glutCreateWindow("OpenGl Template");
 
 	    myStyleInit();
-	    glutTimerFunc(400 , moveCars , 2);  //it moves every car according to its state
-	    glutTimerFunc(400 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
+	    glutTimerFunc(40 , moveCars , 2);  //it moves every car according to its state
+	    glutTimerFunc(40 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
 	    glutTimerFunc(4000 , t1 , 2);
+	    glutTimerFunc(40 , avoidColl , 2);
 	    glutDisplayFunc(myDisplay);
 	    glutMainLoop();
 
