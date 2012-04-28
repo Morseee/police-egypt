@@ -7,7 +7,7 @@
 
 #include "Car.h"
 #include "Image.h"
-Car::Car(int lenth , int width ,bool upRight , bool hor ,Image *img) {
+Car::Car(int height , int width ,bool upRight , bool hor ,Image *img) {
 
 	if(hor && !upRight)
 	{		nwest.y=306;
@@ -17,14 +17,14 @@ Car::Car(int lenth , int width ,bool upRight , bool hor ,Image *img) {
 		{		nwest.y=306;
 				nwest.x=300;
 		}
-	this->lenth=lenth;
+	this->height=height;
 	this->width=width;
 	this->upRight=upRight;
 	this->hor=hor;
 	this->img=img;
-	neast.x=nwest.x+lenth;
+	neast.x=nwest.x+height;
 	neast.y=nwest.y;
-	seast.x=nwest.x +lenth;
+	seast.x=nwest.x +height;
 	seast.y=nwest.y-width;
 	swest.x=nwest.x;
 	swest.y=nwest.y-width;

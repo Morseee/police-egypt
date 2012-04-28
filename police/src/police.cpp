@@ -52,6 +52,24 @@ void myDisplay()
 
 
 }
+void avoidColl(int val)
+{
+	for(int i=0 ;i<timeLine.size() ;i++)
+	{
+		Car *temp;
+					temp=timeLine.front(); // get every car then procces on it
+					timeLine.pop();
+					++*temp; // move the object four times
+					++*temp;
+					++*temp;
+					++*temp;
+					++*temp;
+					if(temp->swest.x <1200)
+					timeLine.push(temp); // get it back
+
+	}
+
+}
 void moveCars(int val)
 {
 
