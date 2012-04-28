@@ -35,9 +35,25 @@ void myDisplay()
 	glMatrixMode ( GL_MODELVIEW ) ;
 	glLoadIdentity ( ) ;
 	glPointSize ( 4.0 ) ;
+
 	glPushMatrix ( ) ;
-	//img->display ( 0 , 0 ) ;
+	img->display ( 0 , 0 ) ;
+	glBegin(GL_POLYGON);			//hor.street
+		glColor3f(0.1,0.20,0.30);
+		glVertex2i( 0 , 223 );
+		glVertex2i( 0 , 281 );
+		glVertex2i( 1440  , 281 );
+		glVertex2i( 1440  , 223  );
+	glEnd();
+	glBegin(GL_POLYGON);			//hor.street
+		glColor3f(0.3,0.20,0.10);
+		glVertex2i( 675 , 0 );
+		glVertex2i( 765 , 0 );
+		glVertex2i( 765 , 900 );
+		glVertex2i( 675 , 900  );
+	glEnd();
 	glPopMatrix ( ) ;
+
 	for(int i=0 ;i<timeLine.size() ;i++)
 		{
 			Car *temp;
@@ -89,7 +105,7 @@ void moveCars(int val)
 		}
 
 	glutPostRedisplay();
-	glutTimerFunc(30 , moveCars , 2);
+	glutTimerFunc(300 , moveCars , 2);
 
 }
 void RedCheck(int val)
@@ -119,7 +135,7 @@ void RedCheck(int val)
 			}
 
 	//glutPostRedisplay();
-	glutTimerFunc(30 , RedCheck , 2);
+	glutTimerFunc(300 , RedCheck , 2);
 
 }
 void t1(int val)
@@ -142,8 +158,8 @@ int main (int argc,char ** argv) {
 	    glutCreateWindow("OpenGl Template");
 
 	    myStyleInit();
-	    glutTimerFunc(40 , moveCars , 2);  //it moves every car according to its state
-	    glutTimerFunc(40 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
+	    glutTimerFunc(400 , moveCars , 2);  //it moves every car according to its state
+	    glutTimerFunc(400 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
 	    glutTimerFunc(4000 , t1 , 2);
 	    glutDisplayFunc(myDisplay);
 	    glutMainLoop();
