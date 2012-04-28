@@ -17,7 +17,8 @@ Image *img1,*img2;
 using namespace std;
 #include "Image.h"
 Image *img;
-Car *x[20];
+Car *x[100];
+Car *x2[100];
 
 int z=0;
 queue <Car*> timeLine;
@@ -127,8 +128,7 @@ void moveCars(int val)
 			++*temp; // move the object four times
 			++*temp;glPushMatrix ( ) ;
 			++*temp;
-			++*temp;
-			++*temp;
+
 			//if(temp->swest.x <1200)
 			timeLine.push(temp); // get it back
 
@@ -141,8 +141,7 @@ void moveCars(int val)
 			++*temp; // move the object four times
 			++*temp;glPushMatrix ( ) ;
 			++*temp;
-			++*temp;
-			++*temp;
+
 		//
 			if(temp->swest.x <1200)
 			timeLine1.push(temp); // get it back
@@ -214,14 +213,29 @@ void t1(int val)
 void makeCar(int val)
 {
 	static int i =0;
-	x[i]= new Car(37,64,1,0,img2);
+	x[i]= new Car(44,33,1,0,img2);
 	x[i]->mov=1;
 	timeLine1.push(x[i]);
 
 
-	if(i<5)
+	if(i<50)
 	{i++;
 	glutTimerFunc(800 , makeCar , 2);
+	}
+
+
+}
+void makeCar2(int val)
+{
+	static int i =0;
+	x2[i]= new Car(37,64,1,1,img1);
+	x2[i]->mov=1;
+	timeLine.push(x2[i]);
+
+
+	if(i<50)
+	{i++;
+	glutTimerFunc(800 , makeCar2 , 2);
 	}
 
 
@@ -248,6 +262,7 @@ int main (int argc,char ** argv) {
 	    glutTimerFunc(1500 , t1 , 2);
 	    glutTimerFunc(40 , avoidColl , 2);
 	    glutTimerFunc(500,makeCar,2);
+	    glutTimerFunc(500,makeCar2,2);
 	    glutDisplayFunc(myDisplay);
 	    glutMainLoop();
 
