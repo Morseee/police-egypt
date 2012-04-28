@@ -79,7 +79,7 @@ void moveCars(int val)
 			temp=timeLine.front(); // get every car then procces on it
 			timeLine.pop();
 			++*temp; // move the object four times
-			++*temp;
+			++*temp;glPushMatrix ( ) ;
 			++*temp;
 			++*temp;
 			++*temp;
@@ -131,7 +131,7 @@ int main (int argc,char ** argv) {
 	Image *img1;
 	img1 = new Image("carleft.bmp");
 	RED=true;
-	x = new Car(37,46,1,1,img1);
+	x = new Car(37,64,1,1,img1);
 	x->mov=1;
 	timeLine.push(x);
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
