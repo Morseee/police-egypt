@@ -11,8 +11,12 @@ Car::Car(int lenth , int width ,bool upRight , bool hor ,Image *img) {
 
 	if(hor && !upRight)
 	{		nwest.y=306;
-			nwest.x=70;
+			nwest.x=300;
 	}
+	if(hor && upRight)
+		{		nwest.y=306;
+				nwest.x=300;
+		}
 	this->lenth=lenth;
 	this->width=width;
 	this->upRight=upRight;
@@ -26,6 +30,31 @@ Car::Car(int lenth , int width ,bool upRight , bool hor ,Image *img) {
 	swest.y=nwest.y-width;
 
 	// TODO Auto-generated constructor stub
+}
+Car& Car::operator++()
+		{
+				if(mov)
+				{
+
+					if(hor)
+					{
+						if(upRight)
+							swest.x++;
+						else
+							swest.x--;
+					}
+					else
+					{
+						if(upRight)
+							swest.y++;
+						else
+							swest.y--;
+					}
+
+				}
+
+
+    return *this;
 }
 
 Car::~Car() {
