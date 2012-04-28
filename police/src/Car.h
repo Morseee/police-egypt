@@ -35,27 +35,7 @@ public:
 			img->display ( swest.x , swest.y ) ;
 		glPopMatrix ( ) ;
 	}
-	void operator++() {
-		if(mov)
-		{
-			if(hor)
-			{
-				if(upRight)
-					nwest.x++;
-				else
-					nwest.x--;
-			}
-			else
-			{
-				if(upRight)
-					nwest.y++;
-				else
-					nwest.y--;
-			}
-
-		}
-
-	}
+	Car& operator++();
 
 	virtual ~Car();
 
