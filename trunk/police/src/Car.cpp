@@ -11,23 +11,23 @@ Car::Car(int height , int width ,bool upRight , bool hor ,Image *img) {
 
 	if(hor && !upRight)
 	{	nwest.y=324;
-		nwest.x=300;
+		nwest.x=1410;
 	}
 	if(hor && upRight)
 	{
-		nwest.y=324;
+		nwest.y=290;
 		nwest.x=30;
 
 	}
 	if(!hor && upRight)
 	{
-		nwest.x=677;
+		nwest.x=730;
 		nwest.y=30;
 	}
 	if(!hor && !upRight)
 	{
-		nwest.x=720;
-		nwest.y=30;
+		nwest.x=677;
+		nwest.y=870;
 	}
 	this->height=height;
 	this->width=width;
