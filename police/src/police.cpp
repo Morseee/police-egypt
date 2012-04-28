@@ -13,12 +13,15 @@
 #include <list>
 #include <queue>
 
+Image *img1,*img2;
 using namespace std;
 #include "Image.h"
 Image *img;
-Car *x;
+Car *x[20];
+
 int z=0;
 queue <Car*> timeLine;
+queue <Car*> timeLine1;
 bool RED;
 void myStyleInit()
 {
@@ -36,7 +39,21 @@ void myDisplay()
 	glLoadIdentity ( ) ;
 	glPointSize ( 4.0 ) ;
 	glPushMatrix ( ) ;
-	//img->display ( 0 , 0 ) ;
+//	img->display ( 0 , 0 ) ;
+	glBegin(GL_POLYGON);			//hor.street
+		glColor3f(0.1,0.20,0.30);
+		glVertex2i( 0 , 223 );
+		glVertex2i( 0 , 281 );
+		glVertex2i( 1440  , 281 );
+		glVertex2i( 1440  , 223  );
+	glEnd();
+	glBegin(GL_POLYGON);			//ver.street
+		glColor3f(0.3,0.20,0.10);
+		glVertex2i( 675 , 0 );
+		glVertex2i( 765 , 0 );
+		glVertex2i( 765 , 900 );
+		glVertex2i( 675 , 900  );
+	glEnd();
 	glPopMatrix ( ) ;
 	for(int i=0 ;i<timeLine.size() ;i++)
 		{
@@ -46,12 +63,20 @@ void myDisplay()
 			temp->Display();
 			timeLine.push(temp);
 		}
+	for(int i=0 ;i<timeLine1.size() ;i++)
+		{
+			Car *temp;
+			temp=timeLine1.front(); // get every car then procces on it
+			timeLine1.pop();
+			temp->Display();
+			timeLine1.push(temp);
+		}
 	glFlush();
 	//glutSwapBuffers ( ) ;
-
-
-
 }
+
+
+
 void avoidColl(int val)
 {
 	int prevx;
@@ -69,8 +94,24 @@ void avoidColl(int val)
 		}
 		prevx=temp->swest.x;
 
-		if(temp->swest.x <1200)
+		//if(temp->swest.x <1200)
 		timeLine.push(temp); // get it back
+
+	}
+	for(int i=0 ;i<timeLine1.size() ;i++)
+	{
+		Car *temp;
+		temp=timeLine1.front(); // get every car then procces on it
+		timeLine1.pop();
+		if(i!=0)
+		{
+			if(((temp->swest.y + temp->height) > (prevy-20))  )
+				temp->mov=0;
+
+		}
+		prevy=temp->swest.y;
+		//if(temp->swest.y <1200)
+		timeLine1.push(temp); // get it back
 
 	}
 	glutTimerFunc(30 , avoidColl , 2);
@@ -88,11 +129,25 @@ void moveCars(int val)
 			++*temp;
 			++*temp;
 			++*temp;
-			if(temp->swest.x <1200)
+			//if(temp->swest.x <1200)
 			timeLine.push(temp); // get it back
 
 		}
+	for(int i=0 ;i<timeLine1.size() ;i++)
+		{
+			Car *temp;
+			temp=timeLine1.front(); // get every car then procces on it
+			timeLine1.pop();
+			++*temp; // move the object four times
+			++*temp;glPushMatrix ( ) ;
+			++*temp;
+			++*temp;
+			++*temp;
+		//
+			if(temp->swest.x <1200)
+			timeLine1.push(temp); // get it back
 
+		}
 	glutPostRedisplay();
 	glutTimerFunc(30 , moveCars , 2);
 
@@ -100,20 +155,34 @@ void moveCars(int val)
 void RedCheck(int val)
 {
 	if(RED)
-	for(int i=0 ;i<timeLine.size() ;i++)
 	{
-		Car *temp;
-		temp=timeLine.front();
-		timeLine.pop();
-		cout << temp->swest.x;
-		if((temp->swest.x) > 600  && (temp->swest.x) < 620)
-			temp->mov=0;
-		timeLine.push(temp);
+		for(int i=0 ;i<timeLine.size() ;i++)
+		{
+			Car *temp;
+			temp=timeLine.front();
+			timeLine.pop();
+			cout << temp->swest.x;
+			if((temp->swest.x) > 600  && (temp->swest.x) < 620)
+				temp->mov=0;
+			timeLine.push(temp);
 
+		}
+		for(int i=0 ;i<timeLine1.size() ;i++)
+		{
+			Car *temp;
+			temp=timeLine1.front();
+			timeLine1.pop();
+			cout << temp->swest.x;
+			if((temp->swest.y+temp->height) > 220  && (temp->swest.y+temp->height) < 225)
+				temp->mov=0;
+			timeLine1.push(temp);
+
+		}
 	}
 	else
+	{
 		for(int i=0 ;i<timeLine.size() ;i++)
-			{
+		{
 				Car *temp;
 				temp=timeLine.front();
 				timeLine.pop();
@@ -121,28 +190,51 @@ void RedCheck(int val)
 				temp->mov=1;
 				timeLine.push(temp);
 
-			}
+		}
+		for(int i=0 ;i<timeLine1.size() ;i++)
+		{
+				Car *temp;
+				temp=timeLine1.front();
+				timeLine1.pop();
+				cout << temp->swest.x;
+				temp->mov=1;
+				timeLine1.push(temp);
 
+		}
+	}
 	//glutPostRedisplay();
 	glutTimerFunc(30 , RedCheck , 2);
 
 }
 void t1(int val)
 {
-	RED=false;
+	RED=!RED;
+	glutTimerFunc(1500 , t1 , 2);
+}
+void makeCar(int val)
+{
+	static int i =0;
+	x[i]= new Car(37,64,1,0,img2);
+	x[i]->mov=1;
+	timeLine1.push(x[i]);
+
+
+	if(i<5)
+	{i++;
+	glutTimerFunc(800 , makeCar , 2);
+	}
+
+
 }
 int main (int argc,char ** argv) {
 	img = new Image("background.bmp");
-	Image *img1;
-	img1 = new Image("carleft.bmp");
-	RED=true;
-	x = new Car(37,64,1,1,img1);
-	Car *x2 = new Car(37,63,1,1,img1);
 
-	x->mov=1;
-    x2->mov=1;
-	timeLine.push(x);
-	timeLine.push(x2);
+	img1 = new Image("carleft.bmp");
+	img2 = new Image("carfront.bmp");
+	RED=true;
+//	x = new Car(37,64,1,1,img1);
+//	Car *x2 = new Car(44,33,1,0,img2);
+
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	glutInit(&argc,argv);
 	    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -153,8 +245,9 @@ int main (int argc,char ** argv) {
 	    myStyleInit();
 	    glutTimerFunc(40 , moveCars , 2);  //it moves every car according to its state
 	    glutTimerFunc(40 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
-	    glutTimerFunc(4000 , t1 , 2);
+	    glutTimerFunc(1500 , t1 , 2);
 	    glutTimerFunc(40 , avoidColl , 2);
+	    glutTimerFunc(500,makeCar,2);
 	    glutDisplayFunc(myDisplay);
 	    glutMainLoop();
 
