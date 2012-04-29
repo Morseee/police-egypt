@@ -13,7 +13,10 @@
 #include <list>
 #include <queue>
 
+
+
 Image *img1,*img2;
+point screen_res;
 using namespace std;
 #include "Image.h"
 Image *img;
@@ -21,9 +24,8 @@ Car *x[100];
 Car *x1[100];
 Car *x2[100];
 Car *x3[100];
-
-
 int z=0;
+static int posx[2]={300,380},posy[2]={560,640};
 queue <Car*> timeLine;
 queue <Car*> timeLine1;
 queue <Car*> timeLine2;
@@ -35,7 +37,7 @@ void myStyleInit()
     glPointSize(4.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0,1440,0,900,0,-1);
+    glOrtho(0,screen_res.x,0,screen_res.y,0,-1);
 }
 void myDisplay()
 {
@@ -45,20 +47,20 @@ void myDisplay()
 	glLoadIdentity ( ) ;
 	glPointSize ( 4.0 ) ;
 	glPushMatrix ( ) ;
-//	img->display ( 0 , 0 ) ;
+    //img->display ( 0 , 0 ) ;
 	glBegin(GL_POLYGON);			//hor.street
 		glColor3f(0.1,0.20,0.30);
-		glVertex2i( 0 , 223 );
-		glVertex2i( 0 , 281 );
-		glVertex2i( 1440  , 281 );
-		glVertex2i( 1440  , 223  );
+		glVertex2i( 0 , posx[0] );
+		glVertex2i( 0 , posx[1] );
+		glVertex2i( screen_res.x  , posx[1] );
+		glVertex2i( screen_res.x  , posx[0]  );
 	glEnd();
 	glBegin(GL_POLYGON);			//ver.street
 		glColor3f(0.3,0.20,0.10);
-		glVertex2i( 675 , 0 );
-		glVertex2i( 765 , 0 );
-		glVertex2i( 765 , 900 );
-		glVertex2i( 675 , 900  );
+		glVertex2i( posy[0] , 0 );
+		glVertex2i( posy[1] , 0 );
+		glVertex2i( posy[1] , screen_res.y );
+		glVertex2i( posy[0] , screen_res.y  );
 	glEnd();
 	glPopMatrix ( ) ;
 	for(int i=0 ;i<timeLine.size() ;i++)
@@ -67,7 +69,6 @@ void myDisplay()
 			temp=timeLine.front(); // get every car then procces on it
 			timeLine.pop();
 			temp->Display();
-
 			timeLine.push(temp);
 		}
 	for(int i=0 ;i<timeLine1.size() ;i++)
@@ -101,16 +102,16 @@ void avoidColl(int val)
 	int prevx;
 	int prevy;
 	if(timeLine.size()>0)
-	if (timeLine.front()->swest.y > 800)
+	if (timeLine.front()->swest.y > screen_res.x)
 		timeLine.pop();
 	if(timeLine1.size()>0)
-		if (timeLine1.front()->swest.y <30)
+		if (timeLine1.front()->swest.y <0)
 			timeLine1.pop();
 	if(timeLine2.size()>0)
-			if (timeLine2.front()->swest.x >1310)
+			if (timeLine2.front()->swest.x >screen_res.y)
 				timeLine2.pop();
 	if(timeLine3.size()>0)
-			if (timeLine3.front()->swest.x <30)
+			if (timeLine3.front()->swest.x <0)
 				timeLine3.pop();
 	for(int i=0 ;i<timeLine.size() ;i++)
 	{
@@ -124,7 +125,6 @@ void avoidColl(int val)
 		}
 		prevy=temp->swest.y;
 		timeLine.push(temp); // get it back
-
 	}
 	for(int i=0 ;i<timeLine1.size() ;i++)
 	{
@@ -222,8 +222,7 @@ void RedCheck(int val)
 			Car *temp;
 			temp=timeLine.front();
 			timeLine.pop();
-			//cout << temp->swest.x;
-			if((temp->swest.y+temp->height) > 220  && (temp->swest.y+temp->height) < 225)
+			if((temp->swest.y+temp->height) > posx[0]-10  && (temp->swest.y+temp->height) < posx[0])
 							temp->mov=0;
 
 			timeLine.push(temp);
@@ -233,19 +232,18 @@ void RedCheck(int val)
 			Car *temp;
 			temp=timeLine1.front();
 			timeLine1.pop();
-			//cout << temp->swest.x;
-			if((temp->swest.y) > 282  && (temp->swest.y) < 290)
+			if((temp->swest.y) > posx[1]  && (temp->swest.y) < posx[1] + 10)
 							temp->mov=0;
 
 			timeLine1.push(temp);
 		}
+		//static int posx[2]={300,380},posy[2]={560,640};
 		for(int i=0 ;i<timeLine2.size() ;i++)
 		{
 			Car *temp;
 			temp=timeLine2.front();
 			timeLine2.pop();
-			cout << temp->swest.x;
-			if((temp->swest.x) > 600  && (temp->swest.x) < 620)
+			if((temp->swest.x + temp->width) > posy[0] -10  && (temp->swest.x + temp->width) < posy[0])
 							temp->mov=0;
 			timeLine2.push(temp);
 		}
@@ -254,8 +252,7 @@ void RedCheck(int val)
 			Car *temp;
 			temp=timeLine3.front();
 			timeLine3.pop();
-	//		cout << temp->swest.x;
-			if((temp->swest.x) > 765  && (temp->swest.x) < 772)
+			if((temp->swest.x) > posy[1]  && (temp->swest.x) < posy[1] + 10)
 							temp->mov=0;
 			timeLine3.push(temp);
 		}
@@ -275,7 +272,6 @@ void RedCheck(int val)
 				Car *temp;
 				temp=timeLine1.front();
 				timeLine1.pop();
-				//cout << temp->swest.x;
 				temp->mov=1;
 				timeLine1.push(temp);
 		}
@@ -315,7 +311,7 @@ void makeCar_ver(int val)
 	z=650;
 	if(i%7==0)
 		z*=7;
-	if(i%3==0)
+	else if(i%3==0)
 		z*=8;
 	glutTimerFunc(z , makeCar_ver , 2);
 	}
@@ -329,10 +325,12 @@ void makeCar_ver2(int val)
 	if(i<90)
 	{i++;
 	z=650;
-	if(i%7==0)
-		z*=7;
-	if(i%3==0)
-		z*=8;
+	if(i%11==0)
+		z*=4;
+	else if(i%7==0)
+		z*=3;
+	else if(i%4==0)
+		z*=6;
 	glutTimerFunc(z , makeCar_ver2 , 2);
 	}
 }
@@ -347,7 +345,7 @@ void makecar_hor(int val)
 	z=650;
 	if(i%7==0)
 		z*=6;
-	if(i%4==0)
+	else if(i%4==0)
 		z*=9;
 	glutTimerFunc(z , makecar_hor , 2);
 	}
@@ -363,12 +361,14 @@ void makecar_hor2(int val)
 	z=650;
 	if(i%7==0)
 		z*=6;
-	if(i%4==0)
+	else if(i%4==0)
 		z*=9;
 	glutTimerFunc(z , makecar_hor2 , 2);
 	}
 }
 int main (int argc,char ** argv) {
+    screen_res.x=1200;
+    screen_res.y=700;
 	img = new Image("background.bmp");
 
 	img1 = new Image("carleft.bmp");
@@ -377,15 +377,14 @@ int main (int argc,char ** argv) {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	glutInit(&argc,argv);
 	    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-	    glutInitWindowSize(1200,750);
+	    glutInitWindowSize(screen_res.x,screen_res.y);
 	    glutInitWindowPosition(50,50);
 	    glutCreateWindow("OpenGl Template");
 
 	    myStyleInit();
 	    glutTimerFunc(40 , moveCars , 2);  //it moves every car according to its state
 	    glutTimerFunc(40 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
-	   RED=1;
-	    // glutTimerFunc(1500 , t1 , 2);
+	    glutTimerFunc(1500 , t1 , 2);
 	    glutTimerFunc(40 , avoidColl , 2);
 	    glutTimerFunc(500,makeCar_ver,2);
 	    glutTimerFunc(500,makeCar_ver2,2);

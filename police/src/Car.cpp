@@ -7,39 +7,34 @@
 
 #include "Car.h"
 #include "Image.h"
+int posx[2]={300,380},posy[2]={560,640};
 Car::Car(int height , int width ,bool upRight , bool hor ,Image *img) {
 
 	if(hor && !upRight)
-	{	nwest.y=324;
-		nwest.x=1410;
+	{	swest.y=posx[1]- height;
+		swest.x=1200;
 	}
 	if(hor && upRight)
 	{
-		nwest.y=290;
-		nwest.x=30;
+		swest.y=posx[0];
+		swest.x=0;
 
 	}
 	if(!hor && upRight)
 	{
-		nwest.x=730;
-		nwest.y=30;
+		swest.x=posy[1]-width;
+		swest.y=0;
 	}
 	if(!hor && !upRight)
 	{
-		nwest.x=677;
-		nwest.y=870;
+		swest.x=posy[0];
+		swest.y=700;
 	}
 	this->height=height;
 	this->width=width;
 	this->upRight=upRight;
 	this->hor=hor;
 	this->img=img;
-	neast.x=nwest.x+height;
-	neast.y=nwest.y;
-	seast.x=nwest.x +height;
-	seast.y=nwest.y-width;
-	swest.x=nwest.x;
-	swest.y=nwest.y-width;
 
 	// TODO Auto-generated constructor stub
 }
