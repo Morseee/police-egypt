@@ -7,28 +7,67 @@
 
 #include "Car.h"
 #include "Image.h"
+int level =1;
 int posx[2]={300,380},posy[2]={560,640};
-Car::Car(int height , int width ,bool upRight , bool hor ,Image *img) {
+int posx2[2]={320,380},posy2[2][2]={{340,400},{780,840}};
+Car::Car(int height , int width ,bool line ,bool upRight , bool hor ,Image *img) {
 
-	if(hor && !upRight)
-	{	swest.y=posx[1]- height;
-		swest.x=1200;
-	}
-	if(hor && upRight)
+	if(level==0)
 	{
-		swest.y=posx[0];
-		swest.x=0;
+		if(hor && !upRight)
+		{	swest.y=posx[1]- height;
+			swest.x=1200;
+		}
+		else if(hor && upRight)
+		{
+			swest.y=posx[0];
+			swest.x=0;
 
+		}
+		else if(!hor && upRight)
+		{
+			swest.x=posy[1]-width;
+			swest.y=0;
+		}
+		else if(!hor && !upRight)
+		{
+			swest.x=posy[0];
+			swest.y=700;
+		}
 	}
-	if(!hor && upRight)
+	else if(level ==1)
 	{
-		swest.x=posy[1]-width;
-		swest.y=0;
-	}
-	if(!hor && !upRight)
-	{
-		swest.x=posy[0];
-		swest.y=700;
+		//int posx2[2]={320,380},posy2[2][2]={{340,400},{780,840}};
+		if(hor && !upRight)
+		{	swest.y=380- height;
+			swest.x=1200;
+		}
+		else if(hor && upRight)
+		{
+			swest.y=320;
+			swest.x=0;
+
+		}
+		else if(!hor && upRight && line)
+		{
+			swest.x=posy2[0][1]-width;
+			swest.y=0;
+		}
+		else if(!hor && !upRight && line)
+		{
+			swest.x=posy2[0][0];
+			swest.y=700;
+		}
+		else if(!hor && upRight && !line)
+		{
+			swest.x=posy2[1][1]-width;
+			swest.y=0;
+		}
+		else if(!hor && !upRight && !line)
+		{
+			swest.x=posy2[1][0];
+			swest.y=700;
+		}
 	}
 	this->height=height;
 	this->width=width;
