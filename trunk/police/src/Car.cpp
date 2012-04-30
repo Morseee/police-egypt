@@ -39,31 +39,31 @@ Car::Car(int height , int width ,bool line ,bool upRight , bool hor ,Image *img)
 	{
 		//int posx2[2]={320,380},posy2[2][2]={{340,400},{780,840}};
 		if(hor && !upRight)
-		{	swest.y=380- height;
+		{	swest.y=posx2[1]- height;
 			swest.x=1200;
 		}
 		else if(hor && upRight)
 		{
-			swest.y=320;
+			swest.y=posx2[0];
 			swest.x=0;
 
 		}
-		else if(!hor && upRight && line)
+		else if(!hor && upRight && !line)
 		{
 			swest.x=posy2[0][1]-width;
 			swest.y=0;
 		}
-		else if(!hor && !upRight && line)
+		else if(!hor && !upRight && !line)
 		{
 			swest.x=posy2[0][0];
 			swest.y=700;
 		}
-		else if(!hor && upRight && !line)
+		else if(!hor && upRight && line)
 		{
 			swest.x=posy2[1][1]-width;
 			swest.y=0;
 		}
-		else if(!hor && !upRight && !line)
+		else if(!hor && !upRight && line)
 		{
 			swest.x=posy2[1][0];
 			swest.y=700;
