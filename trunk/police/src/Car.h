@@ -26,14 +26,22 @@ public:
 	bool upRight; // 1 up or right , 0 down  or left
 	bool hor;// 1 right left , 0 down up
 	bool mov;       // 0 = stop , 1= moving
+	bool line;
 	Image *img;
-
-	Car(int, int, bool, bool, Image*);
+	static int lev;
+	Car(int, int,bool, bool, bool, Image*);
 	void Display()
 	{
-		glPushMatrix ( ) ;
-			img->display ( swest.x , swest.y ) ;
-		glPopMatrix ( ) ;
+		//img->display ( swest.x , swest.y ) ;
+		glPushMatrix();
+		glBegin(GL_POLYGON);			//ver.street
+			glColor3f(0.5,0.75,0.17);
+			glVertex2i( swest.x , swest.y );
+			glVertex2i( swest.x + width , swest.y );
+			glVertex2i( swest.x + width , swest.y + height);
+			glVertex2i( swest.x , swest.y + height );
+		glEnd();
+		glPopMatrix();
 	}
 	Car& operator++();
 
