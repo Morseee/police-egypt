@@ -673,11 +673,24 @@ void makecar_hor2(int val)
 	glutTimerFunc(z , makecar_hor2 , 2);
 	}
 }
+void mouseMove(int click, int state, int x, int y)
+{
+
+
+
+        if(click==GLUT_LEFT_BUTTON )
+        {
+        	cout <<x << y<< endl;
+
+        }
+
+
+}
 
 int main (int argc,char ** argv) {
     screen_res.x=1200;
     screen_res.y=700;
-    level = 1;
+    level = 0;
     //Car::lev=0;
     if(level==1)
     {
@@ -710,6 +723,7 @@ int main (int argc,char ** argv) {
 	    glutTimerFunc(500,makeCar_ver4,2);
 	    glutTimerFunc(500,makeCar_ver5,2);
 	    }
+	    glutMouseFunc( mouseMove );
 	    glutTimerFunc(500,makecar_hor,2);
 	    glutTimerFunc(500,makecar_hor2,2);
 	    glutDisplayFunc(myDisplay);
