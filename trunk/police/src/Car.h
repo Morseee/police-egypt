@@ -28,6 +28,8 @@ public:
 	bool mov;       // 0 = stop , 1= moving
 	bool line;
 	Image *img;
+	bool RED;
+	bool RED1;
 	static int lev;
 	Car(int, int,bool, bool, bool, Image*);
 	void Display()
