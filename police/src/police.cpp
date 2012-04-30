@@ -331,43 +331,46 @@ void RedCheck(int val)
 {
 	if(RED)
 	{
-		for(int i=0 ; i < timeLine.size() ;i++)
+		if(level==0)
 		{
-			Car *temp;
-			temp=timeLine.front();
-			timeLine.pop();
-			if((temp->swest.y+temp->height) > posx[0]-10  && (temp->swest.y+temp->height) < posx[0])
-							temp->mov=0;
+			for(int i=0 ; i < timeLine.size() ;i++)
+			{
+				Car *temp;
+				temp=timeLine.front();
+				timeLine.pop();
+				if((temp->swest.y+temp->height) > posx[0]-10  && (temp->swest.y+temp->height) < posx[0])
+								temp->mov=0;
 
-			timeLine.push(temp);
-		}
-		for(int i=0 ; i < timeLine1.size() ;i++)
-		{
-			Car *temp;
-			temp=timeLine1.front();
-			timeLine1.pop();
-			if((temp->swest.y) > posx[1]  && (temp->swest.y) < posx[1] + 10)
-							temp->mov=0;
+				timeLine.push(temp);
+			}
+			for(int i=0 ; i < timeLine1.size() ;i++)
+			{
+				Car *temp;
+				temp=timeLine1.front();
+				timeLine1.pop();
+				if((temp->swest.y) > posx[1]  && (temp->swest.y) < posx[1] + 10)
+								temp->mov=0;
 
-			timeLine1.push(temp);
-		}
-		for(int i=0 ;i<timeLine2.size() ;i++)
-		{
-			Car *temp;
-			temp=timeLine2.front();
-			timeLine2.pop();
-			if((temp->swest.x + temp->width) > posy[0] -10  && (temp->swest.x + temp->width) < posy[0])
-							temp->mov=0;
-			timeLine2.push(temp);
-		}
-		for(int i=0 ;i<timeLine3.size() ;i++)
-		{
-			Car *temp;
-			temp=timeLine3.front();
-			timeLine3.pop();
-			if((temp->swest.x) > posy[1]  && (temp->swest.x) < posy[1] + 10)
-							temp->mov=0;
-			timeLine3.push(temp);
+				timeLine1.push(temp);
+			}
+			for(int i=0 ;i<timeLine2.size() ;i++)
+			{
+				Car *temp;
+				temp=timeLine2.front();
+				timeLine2.pop();
+				if((temp->swest.x + temp->width) > posy[0] -10  && (temp->swest.x + temp->width) < posy[0])
+								temp->mov=0;
+				timeLine2.push(temp);
+			}
+			for(int i=0 ;i<timeLine3.size() ;i++)
+			{
+				Car *temp;
+				temp=timeLine3.front();
+				timeLine3.pop();
+				if((temp->swest.x) > posy[1]  && (temp->swest.x) < posy[1] + 10)
+								temp->mov=0;
+				timeLine3.push(temp);
+			}
 		}
 		if(level ==1)
 			//static int posx2[2]={320,380},posy2[2][2]={{340,400},{780,840}};
@@ -397,7 +400,7 @@ void RedCheck(int val)
 				Car *temp;
 				temp=timeLine2.front();
 				timeLine2.pop();
-				if((temp->swest.x + temp->width) > posy[0] -10  && (temp->swest.x + temp->width) < posy[0])
+				if((temp->swest.x + temp->width) > posy2[0][0] -10  && (temp->swest.x + temp->width) < posy2[0][0])
 								temp->mov=0;
 				timeLine2.push(temp);
 			}
@@ -446,6 +449,22 @@ void RedCheck(int val)
 				temp->mov=1;
 				timeLine3.push(temp);
 		}
+		for(int i=0 ;i<timeLine4.size() ;i++)
+		{
+				Car *temp;
+				temp=timeLine4.front();
+				timeLine4.pop();
+				temp->mov=1;
+				timeLine4.push(temp);
+		}
+		for(int i=0 ;i<timeLine5.size() ;i++)
+		{
+				Car *temp;
+				temp=timeLine5.front();
+				timeLine5.pop();
+				temp->mov=1;
+				timeLine5.push(temp);
+		}
 	}
 	//glutPostRedisplay();
 	glutTimerFunc(30 , RedCheck , 2);
@@ -492,18 +511,16 @@ void makeCar_ver2(int val)
 void makeCar_ver4(int val)
 {
 	static int i =0,z;
-	x4[i]= new Car(Carver_hight,Carver_width,1,0,0,img2);
+	x4[i]= new Car(Carver_hight,Carver_width,1,1,0,img2);
 	x4[i]->mov=1;
 	timeLine4.push(x4[i]);
 	if(i<90)
 	{i++;
 	z=650;
-	if(i%11==0)
-		z*=4;
-	else if(i%7==0)
-		z*=3;
-	else if(i%4==0)
-		z*=6;
+	if(i%7==0)
+		z*=7;
+	else if(i%3==0)
+		z*=8;
 	glutTimerFunc(z , makeCar_ver4 , 2);
 	}
 }
@@ -567,11 +584,13 @@ int main (int argc,char ** argv) {
     {
     	Carhor_hight-=12;
     	Carhor_width-=20;
+    	Carver_hight-=5;
+    	Carver_width-=10;
     }
 	img = new Image("background.bmp");
 	img1 = new Image("carleft.bmp");
 	img2 = new Image("carfront.bmp");
-	RED=1;
+	RED=0;
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	glutInit(&argc,argv);
 	    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -582,7 +601,7 @@ int main (int argc,char ** argv) {
 	    myStyleInit();
 	    glutTimerFunc(40 , moveCars , 2);  //it moves every car according to its state
 	    glutTimerFunc(40 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
-	    glutTimerFunc(1500 , t1 , 2);
+	    //glutTimerFunc(1500 , t1 , 2);
 	    glutTimerFunc(40 , avoidColl , 2);
 	    glutTimerFunc(500,makeCar_ver,2);
 	    glutTimerFunc(500,makeCar_ver2,2);
