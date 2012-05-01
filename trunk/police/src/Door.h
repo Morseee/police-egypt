@@ -18,7 +18,8 @@ public:
 	int r,g,b;
 	int cet;
 	bool closed;
-	Door(int ,int,int,int ,bool,bool,int ,int,int);
+	int lenth;
+	Door(int ,int,int,int ,int,bool,bool,int ,int,int);
 	void Display2()
 	{
 		glClear ( GL_COLOR_BUFFER_BIT ) ;
