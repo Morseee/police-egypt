@@ -498,7 +498,55 @@ void RedCheck(int val)
 
 				timeLine1.push(temp);
 			}
-			for(int i=0 ;i<timeLine2.size() ;i++)		//hoe_right
+			for(int i=0 ;i<timeLine2.size() ;i++)
+			{
+					Car *temp;
+					temp=timeLine2.front();
+					timeLine2.pop();
+					//temp->mov=1;
+					if(temp->RED)
+					{
+						temp->mov=1;
+						temp->RED=0;
+					}
+					timeLine2.push(temp);
+			}
+			for(int i=0 ;i<timeLine3.size() ;i++)
+			{
+					Car *temp;
+					temp=timeLine3.front();
+					timeLine3.pop();
+					//temp->mov=1;
+					if(temp->RED)
+					{
+						temp->mov=1;
+						temp->RED=0;
+					}
+					timeLine3.push(temp);
+			}
+
+		}
+	}
+	else
+	{
+		for(int i=0 ;i<timeLine.size() ;i++)
+		{
+				Car *temp;
+				temp=timeLine.front();
+				timeLine.pop();
+				temp->mov=1;
+				timeLine.push(temp);
+		}
+		for(int i=0 ;i<timeLine1.size() ;i++)
+		{
+				Car *temp;
+				temp=timeLine1.front();
+				timeLine1.pop();
+				temp->mov=1;
+				timeLine1.push(temp);
+		}
+
+		for(int i=0 ;i<timeLine2.size() ;i++)		//hoe_right
 			{
 				Car *temp;
 				temp=timeLine2.front();
@@ -523,52 +571,6 @@ void RedCheck(int val)
 				}
 				timeLine3.push(temp);
 			}
-		}
-	}
-	else
-	{
-		for(int i=0 ;i<timeLine.size() ;i++)
-		{
-				Car *temp;
-				temp=timeLine.front();
-				timeLine.pop();
-				temp->mov=1;
-				timeLine.push(temp);
-		}
-		for(int i=0 ;i<timeLine1.size() ;i++)
-		{
-				Car *temp;
-				temp=timeLine1.front();
-				timeLine1.pop();
-				temp->mov=1;
-				timeLine1.push(temp);
-		}
-		for(int i=0 ;i<timeLine2.size() ;i++)
-		{
-				Car *temp;
-				temp=timeLine2.front();
-				timeLine2.pop();
-				//temp->mov=1;
-				if(temp->RED)
-				{
-					temp->mov=1;
-					temp->RED=0;
-				}
-				timeLine2.push(temp);
-		}
-		for(int i=0 ;i<timeLine3.size() ;i++)
-		{
-				Car *temp;
-				temp=timeLine3.front();
-				timeLine3.pop();
-				//temp->mov=1;
-				if(temp->RED)
-				{
-					temp->mov=1;
-					temp->RED=0;
-				}
-				timeLine3.push(temp);
-		}
 
 	}
 	if(RED1)
@@ -598,26 +600,23 @@ void RedCheck(int val)
 			}
 			timeLine3.push(temp);
 		}
-		for(int i=0 ; i < timeLine4.size() ;i++)		//ver_up
-		{
-			Car *temp;
-			temp=timeLine4.front();
-			timeLine4.pop();
-			if((temp->swest.y+temp->height) > posx2[0]-10  && (temp->swest.y+temp->height) < posx2[0])
-							temp->mov=0;
+		for(int i=0 ;i<timeLine4.size() ;i++)
+			{
+					Car *temp;
+					temp=timeLine4.front();
+					timeLine4.pop();
+					temp->mov=1;
+					timeLine4.push(temp);
+			}
+			for(int i=0 ;i<timeLine5.size() ;i++)
+			{
+					Car *temp;
+					temp=timeLine5.front();
+					timeLine5.pop();
+					temp->mov=1;
+					timeLine5.push(temp);
+			}
 
-			timeLine4.push(temp);
-		}
-		for(int i=0 ; i < timeLine5.size() ;i++)	//ver_down
-		{
-			Car *temp;
-			temp=timeLine5.front();
-			timeLine5.pop();
-			if((temp->swest.y) > posx2[1]  && (temp->swest.y) < posx2[1] + 10)
-							temp->mov=0;
-
-			timeLine5.push(temp);
-		}
 	}
 	else
 	{
@@ -662,6 +661,26 @@ void RedCheck(int val)
 				temp->mov=1;
 				timeLine5.push(temp);
 		}
+		for(int i=0 ; i < timeLine4.size() ;i++)		//ver_up
+			{
+				Car *temp;
+				temp=timeLine4.front();
+				timeLine4.pop();
+				if((temp->swest.y+temp->height) > posx2[0]-10  && (temp->swest.y+temp->height) < posx2[0])
+								temp->mov=0;
+
+				timeLine4.push(temp);
+			}
+			for(int i=0 ; i < timeLine5.size() ;i++)	//ver_down
+			{
+				Car *temp;
+				temp=timeLine5.front();
+				timeLine5.pop();
+				if((temp->swest.y) > posx2[1]  && (temp->swest.y) < posx2[1] + 10)
+								temp->mov=0;
+
+				timeLine5.push(temp);
+			}
 
 	}
 	//glutPostRedisplay();
