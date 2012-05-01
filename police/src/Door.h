@@ -43,7 +43,7 @@ public:
 			}
 		}
 
-		glColor3f(0,1,0);
+		glColor3f(r,g,b);
 
 		//glRotatef(90,0,0,1);
 		//glTranslatef(500,500,0);
@@ -64,19 +64,19 @@ public:
 		if(cet>0)
 		{
 		glBegin(GL_POLYGON);
-			glColor3f(1,0,0);
+			glColor3f(r,g,b);
 			glVertex2i(x2-lenth*sin(cet*3.14/180),y2+lenth*cos(cet*3.14/180));
 			glVertex2i(x1-lenth*sin(cet*3.14/180),y1-lenth*cos(cet*3.14/180));
-			glVertex2i((x1-lenth*sin(cet*3.14/180)-lenth/15*sin((90-cet)*3.14/180)),(y1-lenth*cos(cet*3.14/180))+lenth/15*cos((90-cet)*3.14/180));
-			glVertex2i((x2-lenth*sin(cet*3.14/180)-lenth/15*sin((90-cet)*3.14/180)),(y2+lenth*cos(cet*3.14/180))-lenth/15*cos((90-cet)*3.14/180));
+			glVertex2i((x1-lenth*sin(cet*3.14/180)-lenth/7*sin((90-cet)*3.14/180)),(y1-lenth*cos(cet*3.14/180))+lenth/7*cos((90-cet)*3.14/180));
+			glVertex2i((x2-lenth*sin(cet*3.14/180)-lenth/7*sin((90-cet)*3.14/180)),(y2+lenth*cos(cet*3.14/180))-lenth/7*cos((90-cet)*3.14/180));
 
 		glEnd();
 		glBegin(GL_LINE_STRIP);
 		glColor3f(0,0,0);
 			glVertex2i(x2-lenth*sin(cet*3.14/180),y2+lenth*cos(cet*3.14/180));
 			glVertex2i(x1-lenth*sin(cet*3.14/180),y1-lenth*cos(cet*3.14/180));
-			glVertex2i((x1-lenth*sin(cet*3.14/180)-lenth/15*sin((90-cet)*3.14/180)),(y1-lenth*cos(cet*3.14/180))+lenth/15*cos((90-cet)*3.14/180));
-			glVertex2i((x2-lenth*sin(cet*3.14/180)-lenth/15*sin((90-cet)*3.14/180)),(y2+lenth*cos(cet*3.14/180))-lenth/15*cos((90-cet)*3.14/180));
+			glVertex2i((x1-lenth*sin(cet*3.14/180)-lenth/7*sin((90-cet)*3.14/180)),(y1-lenth*cos(cet*3.14/180))+lenth/7*cos((90-cet)*3.14/180));
+			glVertex2i((x2-lenth*sin(cet*3.14/180)-lenth/7*sin((90-cet)*3.14/180)),(y2+lenth*cos(cet*3.14/180))-lenth/7*cos((90-cet)*3.14/180));
 			glVertex2i(x2-lenth*sin(cet*3.14/180),y2+lenth*cos(cet*3.14/180));
 			glEnd();
 		glPopMatrix();
@@ -84,19 +84,19 @@ public:
 		else
 		{
 		glBegin(GL_POLYGON);glPopMatrix();
-			glColor3f(1,0,0);
+			glColor3f(r,g,b);
 			glVertex2i(x2-lenth*sin(cet*3.14/180),y2+lenth*cos(cet*3.14/180));
 			glVertex2i(x1-lenth*sin(cet*3.14/180),y1-lenth*cos(cet*3.14/180));
-			glVertex2i((x1-lenth*sin(cet*3.14/180)+lenth/15*sin((90-cet)*3.14/180)),(y1-lenth*cos(cet*3.14/180))-lenth/15*cos((90-cet)*3.14/180));
-			glVertex2i((x2-lenth*sin(cet*3.14/180)+lenth/15*sin((90-cet)*3.14/180)),(y2+lenth*cos(cet*3.14/180))+lenth/15*cos((90-cet)*3.14/180));
+			glVertex2i((x1-lenth*sin(cet*3.14/180)+lenth/7*sin((90-cet)*3.14/180)),(y1-lenth*cos(cet*3.14/180))-lenth/7*cos((90-cet)*3.14/180));
+			glVertex2i((x2-lenth*sin(cet*3.14/180)+lenth/7*sin((90-cet)*3.14/180)),(y2+lenth*cos(cet*3.14/180))+lenth/7*cos((90-cet)*3.14/180));
 
 		glEnd();
 		glBegin(GL_LINE_STRIP);
 		glColor3f(0,0,0);
 			glVertex2i(x2-lenth*sin(cet*3.14/180),y2+lenth*cos(cet*3.14/180));
 			glVertex2i(x1-lenth*sin(cet*3.14/180),y1-lenth*cos(cet*3.14/180));
-			glVertex2i((x1-lenth*sin(cet*3.14/180)+lenth/15*sin((90-cet)*3.14/180)),(y1-lenth*cos(cet*3.14/180))-lenth/15*cos((90-cet)*3.14/180));
-			glVertex2i((x2-lenth*sin(cet*3.14/180)+lenth/15*sin((90-cet)*3.14/180)),(y2+lenth*cos(cet*3.14/180))+lenth/15*cos((90-cet)*3.14/180));
+			glVertex2i((x1-lenth*sin(cet*3.14/180)+lenth/7*sin((90-cet)*3.14/180)),(y1-lenth*cos(cet*3.14/180))-lenth/7*cos((90-cet)*3.14/180));
+			glVertex2i((x2-lenth*sin(cet*3.14/180)+lenth/7*sin((90-cet)*3.14/180)),(y2+lenth*cos(cet*3.14/180))+lenth/7*cos((90-cet)*3.14/180));
 			glVertex2i(x2-lenth*sin(cet*3.14/180),y2+lenth*cos(cet*3.14/180));
 			glEnd();
 
