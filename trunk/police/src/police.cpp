@@ -50,72 +50,53 @@ void myStyleInit()
 }
 void myDisplay2()
 {
-//	z++;
+	int fl1=screen_res.y/6,fl2=4*screen_res.y/6;	//floor position at y-axis
 	glClear ( GL_COLOR_BUFFER_BIT ) ;
 	glMatrixMode ( GL_MODELVIEW ) ;
 	glLoadIdentity ( ) ;
 	glPointSize ( 4.0 ) ;
 	glPushMatrix ( ) ;
-	glColor3f(0,1,0);
+	glColor3f(0.2,0.5,0.4);
 
-	glBegin(GL_POLYGON);
-
-		glVertex2i(0,screen_res.y/2);
-		glVertex2i(screen_res.x,screen_res.y/2);
-		glVertex2i(screen_res.x,4*screen_res.y/6);
-		glVertex2i(0,4*screen_res.y/6);
-
-	glEnd();
-	glBegin(GL_LINE_STRIP);
-
-	glColor3f(0,0,0);
-
-		glVertex2i(0,screen_res.y/2);
-		glVertex2i(screen_res.x,screen_res.y/2);
-		glVertex2i(screen_res.x,4*screen_res.y/6);
-		glVertex2i(0,4*screen_res.y/6);
-
-	glEnd();
-
-	glBegin(GL_POLYGON);
-	glColor3f(0,1,0);
-
+	glBegin(GL_POLYGON);				//1st floor
+		glColor3f(0.2,0.5,0.4);
 		glVertex2i(0,0);
 		glVertex2i(screen_res.x,0);
-		glVertex2i(screen_res.x,screen_res.y/6);
-		glVertex2i(0,screen_res.y/6);
-
-	glEnd();
-	glBegin(GL_LINE_STRIP);
-
-	glColor3f(0,0,0);
-
-		glVertex2i(0,0);
-		glVertex2i(screen_res.x,0);
-		glVertex2i(screen_res.x,screen_res.y/6);
-		glVertex2i(0,screen_res.y/6);
-
+		glVertex2i(screen_res.x,fl1);
+		glVertex2i(0,fl1);
 	glEnd();
 
-	glBegin(GL_LINES);
+	glBegin(GL_POLYGON);				//2nd floor
+		glVertex2i(0,screen_res.y/2);
+		glVertex2i(screen_res.x,screen_res.y/2);
+		glVertex2i(screen_res.x,fl2);
+		glVertex2i(0,fl2);
+	glEnd();
 
-	glColor3f(0,0,0);
+	glBegin(GL_LINES);				//draw lines
+		glColor3f(0,0,0);//black
+		glVertex2i(0,screen_res.y/6);	//upper border of 1st floor
+		glVertex2i(screen_res.x,screen_res.y/6);
 
+		glVertex2i(0,screen_res.y/2);	//lower border of 2nd floor
+		glVertex2i(screen_res.x,screen_res.y/2);
 
-		for(int i=0;i<screen_res.x;i+=30)
-		{
-			glVertex2i(i,screen_res.y/2);
-			glVertex2i(i+60,4*screen_res.y/6);
+		glVertex2i(0,fl2);				//upper border of 2nd floor
+		glVertex2i(screen_res.x,fl2);
 
-		}
-		for(int i=0;i<screen_res.x;i+=30)
+		for(int i=-70;i<screen_res.x;i+=30)//1st floor ground
 		{
 			glVertex2i(i,0);
-			glVertex2i(i+60,screen_res.y/6);
-
+			glVertex2i(i+70,fl1);
+		}
+		for(int i=-60;i<screen_res.x;i+=30)//2nd floor ground
+		{
+			glVertex2i(i,screen_res.y/2);
+			glVertex2i(i+60,fl2);
 		}
 
 	glEnd();
+
 	glPopMatrix();
 	glFlush();
 
@@ -145,8 +126,11 @@ void myDisplay()
 			glVertex2i( posy[1] , screen_res.y );
 			glVertex2i( posy[0] , screen_res.y  );
 		glEnd();
-		glBegin(GL_POLYGON);
+		glBegin(GL_POLYGON);			//Traffic Signal
+			if(!RED)
 			glColor3f(0.0,1.0,0.0);
+			else
+			glColor3f(1.0,0.0,0.0);
 			glVertex2i(posy[0],posx[0]);
 			glVertex2i(posy[0],posx[0]-30);
 			glVertex2i(posy[0]-30,posx[0]-30);
@@ -177,19 +161,26 @@ void myDisplay()
 			glVertex2i( posy2[1][1] , screen_res.y );
 			glVertex2i( posy2[1][0] , screen_res.y  );
 		glEnd();
-		glBegin(GL_POLYGON);
-		glColor3f(0.0,1.0,0.0);
-		glVertex2i(posy2[0][1],posx2[0]);
-		glVertex2i(posy2[0][1],posx2[0]-30);
-		glVertex2i(posy2[0][1]+30,posx2[0]-30);
-		glVertex2i(posy2[0][1]+30,posx2[0]);
+		glBegin(GL_POLYGON);			//Traffic Signal
+			if(!RED)
+			glColor3f(0.0,1.0,0.0);
+			else
+			glColor3f(1.0,0.0,0.0);
+			glVertex2i(posy2[0][1],posx2[0]);
+			glVertex2i(posy2[0][1],posx2[0]-30);
+			glVertex2i(posy2[0][1]+30,posx2[0]-30);
+			glVertex2i(posy2[0][1]+30,posx2[0]);
 		glEnd();
 		glBegin(GL_POLYGON);
-		glColor3f(0.0,1.0,0.0);
-		glVertex2i(posy2[1][0],posx2[0]);
-		glVertex2i(posy2[1][0],posx2[0]-30);
-		glVertex2i(posy2[1][0]-30,posx2[0]-30);
-		glVertex2i(posy2[1][0]-30,posx2[0]);
+			glBegin(GL_POLYGON);			//Traffic Signal
+			if(RED1)
+			glColor3f(0.0,1.0,0.0);
+			else
+			glColor3f(1.0,0.0,0.0);
+			glVertex2i(posy2[1][0],posx2[0]);
+			glVertex2i(posy2[1][0],posx2[0]-30);
+			glVertex2i(posy2[1][0]-30,posx2[0]-30);
+			glVertex2i(posy2[1][0]-30,posx2[0]);
 		glEnd();
 		glPopMatrix ( ) ;
 	}
@@ -851,7 +842,7 @@ void mouseMove(int click, int state, int x, int y)
 int main (int argc,char ** argv) {
     screen_res.x=1200;
     screen_res.y=700;
-    level = 0;
+    level = 1;
     //Car::lev=0;
     if(level==1)
     {
@@ -887,7 +878,7 @@ int main (int argc,char ** argv) {
 	    glutMouseFunc( mouseMove );
 	    glutTimerFunc(500,makecar_hor,2);
 	    glutTimerFunc(500,makecar_hor2,2);
-	    glutDisplayFunc(myDisplay);
+	    glutDisplayFunc(myDisplay2);
 	    glutMainLoop();
 
 	return 0;
