@@ -682,7 +682,7 @@ void RedCheck(int val)
 				temp=timeLine4.front();
 				timeLine4.pop();
 				temp->mov=1;
-		//		timeLine4.push(temp);
+				timeLine4.push(temp);
 		}
 		for(int i=0 ;i<timeLine5.size() ;i++)
 		{
