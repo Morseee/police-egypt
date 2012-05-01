@@ -452,28 +452,24 @@ void RedCheck(int val)
 				timeLine1.push(temp);
 			}
 			for(int i=0 ;i<timeLine2.size() ;i++)
-			{
-				Car *temp;
-				temp=timeLine2.front();
-				timeLine2.pop();
-				if((temp->swest.x + temp->width) > posy[0] -10  && (temp->swest.x + temp->width) < posy[0])
-				{				temp->mov=0;
-								temp->RED=1;
-				}
-				timeLine2.push(temp);
-			}
-			for(int i=0 ;i<timeLine3.size() ;i++)
-			{
-				Car *temp;
-				temp=timeLine3.front();
-				timeLine3.pop();
-				if((temp->swest.x) > posy[1]  && (temp->swest.x) < posy[1] + 10)
-				{
-								temp->mov=0;
-								temp->RED=1;
-				}
-				timeLine3.push(temp);
-			}
+									{
+											Car *temp;
+											temp=timeLine2.front();
+											timeLine2.pop();
+											temp->mov=1;
+
+											timeLine2.push(temp);
+									}
+									for(int i=0 ;i<timeLine3.size() ;i++)
+									{
+											Car *temp;
+											temp=timeLine3.front();
+											timeLine3.pop();
+											temp->mov=1;
+
+											timeLine3.push(temp);
+									}
+
 		}
 		if(level ==1)
 			//static int posx2[2]={320,380},posy2[2][2]={{340,400},{780,840}};
@@ -545,7 +541,8 @@ void RedCheck(int val)
 				temp->mov=1;
 				timeLine1.push(temp);
 		}
-
+		if(level==1)
+		{
 		for(int i=0 ;i<timeLine2.size() ;i++)		//hoe_right
 			{
 				Car *temp;
@@ -571,7 +568,34 @@ void RedCheck(int val)
 				}
 				timeLine3.push(temp);
 			}
+		}
+		else
+		{
+			for(int i=0 ;i<timeLine2.size() ;i++)
+						{
+							Car *temp;
+							temp=timeLine2.front();
+							timeLine2.pop();
+							if((temp->swest.x + temp->width) > posy[0] -10  && (temp->swest.x + temp->width) < posy[0])
+							{				temp->mov=0;
+											temp->RED=1;
+							}
+							timeLine2.push(temp);
+						}
+						for(int i=0 ;i<timeLine3.size() ;i++)
+						{
+							Car *temp;
+							temp=timeLine3.front();
+							timeLine3.pop();
+							if((temp->swest.x) > posy[1]  && (temp->swest.x) < posy[1] + 10)
+							{
+											temp->mov=0;
+											temp->RED=1;
+							}
+							timeLine3.push(temp);
+						}
 
+		}
 	}
 	if(RED1)
 	{
@@ -812,7 +836,7 @@ void mouseMove(int click, int state, int x, int y)
 int main (int argc,char ** argv) {
     screen_res.x=1200;
     screen_res.y=700;
-    level = 1;
+    level = 0;
     //Car::lev=0;
     if(level==1)
     {
@@ -824,7 +848,7 @@ int main (int argc,char ** argv) {
 	img = new Image("background.bmp");
 	img1 = new Image("carleft.bmp");
 	img2 = new Image("carfront.bmp");
-	RED=0;
+	RED=1;
     RED1=0;
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	glutInit(&argc,argv);
@@ -836,7 +860,7 @@ int main (int argc,char ** argv) {
 	    myStyleInit();
 	    glutTimerFunc(40 , moveCars , 2);  //it moves every car according to its state
 	    glutTimerFunc(40 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
-	   // glutTimerFunc(1500 , t1 , 2);
+	    glutTimerFunc(1500 , t1 , 2);
 	    glutTimerFunc(40 , avoidColl , 2);
 	    glutTimerFunc(500,makeCar_ver,2);
 	    glutTimerFunc(500,makeCar_ver2,2);
@@ -845,7 +869,7 @@ int main (int argc,char ** argv) {
 	    glutTimerFunc(500,makeCar_ver4,2);
 	    glutTimerFunc(500,makeCar_ver5,2);
 	    }
-	    glutMouseFunc( mouseMove );
+	  //  glutMouseFunc( mouseMove );
 	    glutTimerFunc(500,makecar_hor,2);
 	    glutTimerFunc(500,makecar_hor2,2);
 	    glutDisplayFunc(myDisplay);
