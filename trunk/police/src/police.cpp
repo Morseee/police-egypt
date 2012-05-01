@@ -48,6 +48,78 @@ void myStyleInit()
     glLoadIdentity();
     glOrtho(0,screen_res.x,0,screen_res.y,0,-1);
 }
+void myDisplay2()
+{
+//	z++;
+	glClear ( GL_COLOR_BUFFER_BIT ) ;
+	glMatrixMode ( GL_MODELVIEW ) ;
+	glLoadIdentity ( ) ;
+	glPointSize ( 4.0 ) ;
+	glPushMatrix ( ) ;
+	glColor3f(0,1,0);
+
+	glBegin(GL_POLYGON);
+
+		glVertex2i(0,screen_res.y/2);
+		glVertex2i(screen_res.x,screen_res.y/2);
+		glVertex2i(screen_res.x,4*screen_res.y/6);
+		glVertex2i(0,4*screen_res.y/6);
+
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+
+	glColor3f(0,0,0);
+
+		glVertex2i(0,screen_res.y/2);
+		glVertex2i(screen_res.x,screen_res.y/2);
+		glVertex2i(screen_res.x,4*screen_res.y/6);
+		glVertex2i(0,4*screen_res.y/6);
+
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glColor3f(0,1,0);
+
+		glVertex2i(0,0);
+		glVertex2i(screen_res.x,0);
+		glVertex2i(screen_res.x,screen_res.y/6);
+		glVertex2i(0,screen_res.y/6);
+
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+
+	glColor3f(0,0,0);
+
+		glVertex2i(0,0);
+		glVertex2i(screen_res.x,0);
+		glVertex2i(screen_res.x,screen_res.y/6);
+		glVertex2i(0,screen_res.y/6);
+
+	glEnd();
+
+	glBegin(GL_LINES);
+
+	glColor3f(0,0,0);
+
+
+		for(int i=0;i<screen_res.x;i+=30)
+		{
+			glVertex2i(i,screen_res.y/2);
+			glVertex2i(i+60,4*screen_res.y/6);
+
+		}
+		for(int i=0;i<screen_res.x;i+=30)
+		{
+			glVertex2i(i,0);
+			glVertex2i(i+60,screen_res.y/6);
+
+		}
+
+	glEnd();
+	glPopMatrix();
+	glFlush();
+
+}
 void myDisplay()
 {
 	z++;
