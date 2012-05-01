@@ -19,6 +19,7 @@ Image *img1,*img2;
 point screen_res;
 using namespace std;
 #include "Image.h"
+#include "Door.h"
 Image *img;
 Car *x[100];
 Car *x1[100];
@@ -27,7 +28,7 @@ Car *x3[100];
 Car *x4[100];
 Car *x5[100];
 int z=0;
-
+Door *amr;
 static int level;
 int Carhor_hight=35,Carhor_width=50;
 int Carver_hight=40,Carver_width=32;
@@ -50,54 +51,16 @@ void myStyleInit()
 }
 void myDisplay2()
 {
-	int fl1=screen_res.y/6,fl2=4*screen_res.y/6;	//floor position at y-axis
+
 	glClear ( GL_COLOR_BUFFER_BIT ) ;
 	glMatrixMode ( GL_MODELVIEW ) ;
 	glLoadIdentity ( ) ;
 	glPointSize ( 4.0 ) ;
 	glPushMatrix ( ) ;
-	glColor3f(0.2,0.5,0.4);
+	//glColor3f(0.2,0.5,0.4);
 
-	glBegin(GL_POLYGON);				//1st floor
-		glColor3f(0.2,0.5,0.4);
-		glVertex2i(0,0);
-		glVertex2i(screen_res.x,0);
-		glVertex2i(screen_res.x,fl1);
-		glVertex2i(0,fl1);
-	glEnd();
-
-	glBegin(GL_POLYGON);				//2nd floor
-		glVertex2i(0,screen_res.y/2);
-		glVertex2i(screen_res.x,screen_res.y/2);
-		glVertex2i(screen_res.x,fl2);
-		glVertex2i(0,fl2);
-	glEnd();
-
-	glBegin(GL_LINES);				//draw lines
-		glColor3f(0,0,0);//black
-		glVertex2i(0,screen_res.y/6);	//upper border of 1st floor
-		glVertex2i(screen_res.x,screen_res.y/6);
-
-		glVertex2i(0,screen_res.y/2);	//lower border of 2nd floor
-		glVertex2i(screen_res.x,screen_res.y/2);
-
-		glVertex2i(0,fl2);				//upper border of 2nd floor
-		glVertex2i(screen_res.x,fl2);
-
-		for(int i=-70;i<screen_res.x;i+=30)//1st floor ground
-		{
-			glVertex2i(i,0);
-			glVertex2i(i+70,fl1);
-		}
-		for(int i=-60;i<screen_res.x;i+=30)//2nd floor ground
-		{
-			glVertex2i(i,screen_res.y/2);
-			glVertex2i(i+60,fl2);
-		}
-
-	glEnd();
-
-	glPopMatrix();
+	amr->Display();
+glPopMatrix();
 	glFlush();
 
 }
@@ -708,10 +671,12 @@ void RedCheck(int val)
 	//glutPostRedisplay();
 	glutTimerFunc(30 , RedCheck , 2);
 }
+
 void t1(int val)
 {
-	RED=!RED;
-	glutTimerFunc(1500 , t1 , 2);
+	amr->open();
+	glutPostRedisplay();
+	glutTimerFunc(30 , t1 , 2);
 }
 void makeCar_ver(int val)
 {
@@ -844,6 +809,9 @@ int main (int argc,char ** argv) {
     screen_res.y=700;
     level = 1;
     //Car::lev=0;
+    amr= new Door(300,300,300,600,50,0,0,1,0,0);
+    cout<< amr->cet;
+   amr->open();
     if(level==1)
     {
     	Carhor_hight-=12;
@@ -864,20 +832,20 @@ int main (int argc,char ** argv) {
 	    glutCreateWindow("OpenGl Template");
 
 	    myStyleInit();
-	    glutTimerFunc(40 , moveCars , 2);  //it moves every car according to its state
-	    glutTimerFunc(40 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
-	   // glutTimerFunc(1500 , t1 , 2);
-	    glutTimerFunc(40 , avoidColl , 2);
-	    glutTimerFunc(500,makeCar_ver,2);
-	    glutTimerFunc(500,makeCar_ver2,2);
+	    //glutTimerFunc(40 , moveCars , 2);  //it moves every car according to its state
+	    //glutTimerFunc(40 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
+	    glutTimerFunc(1 , t1 , 2);
+	    //glutTimerFunc(40 , avoidColl , 2);
+	    //glutTimerFunc(500,makeCar_ver,2);
+	    //glutTimerFunc(500,makeCar_ver2,2);
 	    if(level==1)
 	    {
-	    glutTimerFunc(500,makeCar_ver4,2);
-	    glutTimerFunc(500,makeCar_ver5,2);
+	   // glutTimerFunc(500,makeCar_ver4,2);
+	  //  glutTimerFunc(500,makeCar_ver5,2);
 	    }
-	    glutMouseFunc( mouseMove );
-	    glutTimerFunc(500,makecar_hor,2);
-	    glutTimerFunc(500,makecar_hor2,2);
+	   // glutMouseFunc( mouseMove );
+	 //   glutTimerFunc(500,makecar_hor,2);
+	//    glutTimerFunc(500,makecar_hor2,2);
 	    glutDisplayFunc(myDisplay2);
 	    glutMainLoop();
 

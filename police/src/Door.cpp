@@ -18,6 +18,12 @@ this->r=r;
 this->g=g;
 this->b=b;
 this->lenth=lenth;
+closed=1;
+if(hor)
+	if(upRight)
+		cet=-90;
+	else
+		cet=90;
 
 }
 
