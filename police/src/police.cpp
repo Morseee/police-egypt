@@ -145,6 +145,13 @@ void myDisplay()
 			glVertex2i( posy[1] , screen_res.y );
 			glVertex2i( posy[0] , screen_res.y  );
 		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3f(0.0,1.0,0.0);
+			glVertex2i(posy[0],posx[0]);
+			glVertex2i(posy[0],posx[0]-30);
+			glVertex2i(posy[0]-30,posx[0]-30);
+			glVertex2i(posy[0]-30,posx[0]);
+		glEnd();
 		glPopMatrix ( ) ;
 	}
 	else if (level ==1)
@@ -820,15 +827,23 @@ void mouseMove(int click, int state, int x, int y)
 
 
 
-        if(click==GLUT_LEFT_BUTTON && state==GLUT_DOWN )
+        if(click==GLUT_LEFT_BUTTON && state==GLUT_DOWN && level==1 )
         {
     		//glVertex2i(posy2[0][1],posx2[0]);
-        	cout << x <<' '  << y;
+        	//cout << x <<' '  << y;
     		if(x>400 && x<430 && y>380 && y<400)
     			RED=!RED;
     		if(x>750 && x<780 && y>380 && y<400)
     		    RED1=!RED1;
         }
+        if(click==GLUT_LEFT_BUTTON && state==GLUT_DOWN && level==0 )
+		{
+			//glVertex2i(posy2[0][1],posx2[0]);
+			cout << x <<' '  << y;
+			if(x>531 && x<561 && y>400 && y<430)
+				RED=!RED;
+
+		}
 
 
 }
@@ -860,7 +875,7 @@ int main (int argc,char ** argv) {
 	    myStyleInit();
 	    glutTimerFunc(40 , moveCars , 2);  //it moves every car according to its state
 	    glutTimerFunc(40 , RedCheck , 2); // check if it is red , if it is red and car is range it will stop it
-	    glutTimerFunc(1500 , t1 , 2);
+	   // glutTimerFunc(1500 , t1 , 2);
 	    glutTimerFunc(40 , avoidColl , 2);
 	    glutTimerFunc(500,makeCar_ver,2);
 	    glutTimerFunc(500,makeCar_ver2,2);
@@ -869,7 +884,7 @@ int main (int argc,char ** argv) {
 	    glutTimerFunc(500,makeCar_ver4,2);
 	    glutTimerFunc(500,makeCar_ver5,2);
 	    }
-	  //  glutMouseFunc( mouseMove );
+	    glutMouseFunc( mouseMove );
 	    glutTimerFunc(500,makecar_hor,2);
 	    glutTimerFunc(500,makecar_hor2,2);
 	    glutDisplayFunc(myDisplay);
