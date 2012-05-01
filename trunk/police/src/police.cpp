@@ -51,16 +51,440 @@ void myStyleInit()
 }
 void myDisplay2()
 {
+	int wide =60,xfc=-30,yfc=-20;
+	int fl1=wide,fl2l=350,fl2u=410;	//floor position at y-axis
+	int ceil1=fl2l-wide,ceil2=screen_res.y-wide;
+	int wid,hit,hit2,fram;//for picture all *2
 
 	glClear ( GL_COLOR_BUFFER_BIT ) ;
 	glMatrixMode ( GL_MODELVIEW ) ;
 	glLoadIdentity ( ) ;
 	glPointSize ( 4.0 ) ;
+
+	glPushMatrix ( ) ;
+	glColor3f(0.2,0.5,0.4);
+
+	glBegin(GL_POLYGON);				//1st floor
+		glColor3f(0.5429,0.71484375,0.7343);
+		glVertex2i(0,0);
+		glVertex2i(screen_res.x,0);
+		glVertex2i(screen_res.x,fl1);
+		glVertex2i(0,fl1);
+	glEnd();
+
+	glBegin(GL_POLYGON);				//2nd floor
+		glVertex2i(0,fl2l);
+		glVertex2i(screen_res.x,fl2l);
+		glVertex2i(screen_res.x,fl2u);
+		glVertex2i(0,fl2u);
+	glEnd();
+
+	glBegin(GL_LINES);						//draw lines
+		glColor3f(0,0,0);//black
+		glVertex2i(0,fl1);		//upper border of 1st floor
+		glVertex2i(screen_res.x,fl1);
+
+		glVertex2i(0,fl2l);					//lower border of 2nd floor
+		glVertex2i(screen_res.x,fl2l);
+
+		glVertex2i(0,ceil1+(wide/3));		//1st cut off ceil in 1st floor
+		glVertex2i(screen_res.x,ceil1+(wide/3));
+
+		glVertex2i(0,fl2l-(wide/3));		//2nd cut off ceil in 1st floor
+		glVertex2i(screen_res.x,fl2l-(wide/3));
+
+
+		glVertex2i(0,fl2u);					//upper border of 2nd floor
+		glVertex2i(screen_res.x,fl2u);
+
+		for(int i=-70;i<screen_res.x;i+=30)//1st floor ground
+		{
+			glVertex2i(i,0);
+			glVertex2i(i+70,fl1);
+		}
+		for(int i=-60;i<screen_res.x;i+=30)//2nd floor ground
+		{
+			glVertex2i(i,fl2l);
+			glVertex2i(i+60,fl2u);
+		}
+	glEnd();				//End draw lines
+
+	glPushMatrix();			//ceil in 1st floor
+	glBegin(GL_POLYGON);
+	glColor3f(0.4140625,0.2734375,0);
+	glVertex2i(0,ceil1);
+	glVertex2i(screen_res.x,ceil1);
+	glVertex2i(screen_res.x,fl2l);
+	glVertex2i(0,fl2l);
+	glEnd();
+	glPushMatrix();			//wall in 1st floor
+	glBegin(GL_POLYGON);
+	glColor3f(0.99609375,.8984375,0.796875);
+	glVertex2i(0,fl1);
+	glVertex2i(screen_res.x,fl1);
+	glVertex2i(screen_res.x,ceil1);
+	glVertex2i(0,ceil1);
+	glEnd();
+	glPopMatrix();			//End wall in 1st floor
+
+	glPushMatrix();//table
+	glTranslatef(370,90,0);//position from NEast pt
+	glBegin(GL_POLYGON);//leg
+	glColor3f(0.1,0.5,0.24);
+	glVertex2i(-150,-10);
+	glVertex2i(-150,-45);
+	glVertex2i(-142,-45);
+	glVertex2i(-142,-10);
+	glEnd();
+	glBegin(GL_POLYGON);//leg
+	glColor3f(0.1,0.5,0.24);
+	glVertex2i(-150,-10);
+	glVertex2i(-156,-14);
+	glVertex2i(-156,-49);
+	glVertex2i(-150,-45);
+	glEnd();
+	glBegin(GL_POLYGON);//Surface
+	glColor3f(0.15,0.75,0.324);
+	glVertex2i(0,0);
+	glVertex2i(-30,-20);
+	glVertex2i(-180,-20);
+	glVertex2i(-150,0);
+	glEnd();
+	glBegin(GL_POLYGON);//side
+	glColor3f(0.1,0.5,0.24);
+	glVertex2i(0,0);
+	glVertex2i(-30,-20);
+	glVertex2i(-30,-30);
+	glVertex2i(0,-10);
+	glEnd();
+	glBegin(GL_POLYGON);//side
+	glColor3f(0.1,0.5,0.24);
+	glVertex2i(-30,-20);
+	glVertex2i(-180,-20);
+	glVertex2i(-180,-30);
+	glVertex2i(-30,-30);
+	glEnd();
+	glBegin(GL_POLYGON);//leg
+	glColor3f(0.1,0.5,0.24);
+	glVertex2i(0,-10);
+	glVertex2i(0,-45);
+	glVertex2i(-6,-49);
+	glVertex2i(-6,-14);
+	glEnd();
+	glBegin(GL_POLYGON);//leg
+	glColor3f(0.1,0.5,0.24);
+	glVertex2i(-30,-30);
+	glVertex2i(-38,-30);
+	glVertex2i(-38,-65);
+	glVertex2i(-30,-65);
+	glEnd();
+	glBegin(GL_POLYGON);//leg
+	glColor3f(0.1,0.5,0.24);
+	glVertex2i(-30,-30);
+	glVertex2i(-30,-65);
+	glVertex2i(-24,-61);
+	glVertex2i(-24,-26);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glColor3f(0.1,0.5,0.24);//leg
+	glVertex2i(-180,-30);
+	glVertex2i(-180,-65);
+	glVertex2i(-172,-65);
+	glVertex2i(-172,-30);
+	glEnd();
+	glPopMatrix();//End Table
+
+	glPushMatrix();			//1st window
+	glTranslatef(400,ceil1-50,0);
+	glBegin(GL_POLYGON);
+	wid=-200;hit=-90;fram=7.5;
+	glBegin(GL_POLYGON);//frame
+	glColor3f(0.0,0.0,0.0);
+	glVertex2i(0,0);
+	glVertex2i(wid,0);
+	glVertex2i(wid,hit);
+	glVertex2i(0,hit);
+	glEnd();
+	glBegin(GL_POLYGON);//pic
+	glColor3f(0,0.6,0.7);
+	wid+=fram;hit+=fram;
+	glVertex2i(-fram,-fram);
+	glVertex2i(wid,-fram);
+	glVertex2i(wid,hit);
+	glVertex2i(-fram,hit);
+	glEnd();
+	glPopMatrix();			//End 1st window
+
+
+
+	//2nd floor
+
+	glPushMatrix();			//ceil in 2nd floor
+	glBegin(GL_POLYGON);
+	glColor3f(0.8984375,0.8984375,0.8984375);
+	glVertex2i(0,ceil2);
+	glVertex2i(screen_res.x,ceil2);
+	glVertex2i(screen_res.x,screen_res.y);
+	glVertex2i(0,screen_res.y);
+	glEnd();
+	glPopMatrix();			//End ceil in 2nd floor
+
+	glPushMatrix();			//wall in 2nd floor
+	glBegin(GL_POLYGON);
+	glColor3f(0.99609375,.8984375,0.796875);
+	glVertex2i(0,fl2u);
+	glVertex2i(screen_res.x,fl2u);
+	glVertex2i(screen_res.x,ceil2);
+	glVertex2i(0,ceil2);
+	glEnd();
+	glPopMatrix();			//End wall in 2nd floor
+
+	glPushMatrix();			//picture 1
+	wid=90;hit=-10;hit2=-110;fram=7.5;//all *2
+	glTranslatef(950,ceil1-15,0);//Position of the picture
+	glBegin(GL_POLYGON);	//1st side line
+	glColor3f(0,0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,5);
+	glVertex2i(wid-25,hit);
+	glVertex2i(wid-30,hit);
+	glEnd();
+	glBegin(GL_POLYGON);	//2nd side lien
+	glColor3f(0,0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,5);
+	glVertex2i(-wid+25,hit);
+	glVertex2i(-wid+30,hit);
+	glEnd();
+	glBegin(GL_POLYGON);//frame
+	glColor3f(0.8046875,0.76171875,0.26171875);
+	glVertex2i(wid,hit);
+	glVertex2i(-wid,hit);
+	glVertex2i(-wid,hit2);
+	glVertex2i(wid,hit2);
+	glEnd();
+	glBegin(GL_POLYGON);//pic
+	glColor3f(0,0.6,0);
+	wid-=fram;hit-=fram;hit2+=fram;
+	glVertex2i(wid,hit);
+	glVertex2i(-wid,hit);
+	glVertex2i(-wid,hit2);
+	glVertex2i(wid,hit2);
+	glEnd();
+	glPopMatrix();		//picture 1
+
+	glPushMatrix();			//1st cupboard
+	int wd=-150,ht=-(ceil2-fl2u);
+	glTranslatef(-ht,ceil2,0);
+	glBegin(GL_POLYGON);	//ceil
+	glColor3f(00.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(wd,0);
+	glVertex2i(wd+xfc,yfc);
+	glVertex2i(xfc,yfc);
+	glEnd();
+	glBegin(GL_POLYGON);	//side
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(xfc,yfc);
+	glVertex2i(xfc,ht+yfc);
+	glVertex2i(0,ht);
+	glEnd();
+	glBegin(GL_POLYGON);	//front
+	glColor3f(0.4296875,0.21484375,0);
+	glVertex2i(xfc,yfc);
+	glVertex2i(wd+xfc,yfc);
+	glVertex2i(wd+xfc,ht+yfc);
+	glVertex2i(xfc,ht+yfc);
+	glEnd();
+	glBegin(GL_POLYGON);	//lower cut
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(xfc,ht+yfc+32.5);
+	glVertex2i(xfc,ht+yfc+27.5);
+	glVertex2i(xfc+wd,ht+yfc+27.5);
+	glVertex2i(xfc+wd,ht+yfc+32.5);
+	glEnd();
+	glBegin(GL_POLYGON);	//center cut
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(xfc+(wd/2)-2.5,yfc);
+	glVertex2i(xfc+(wd/2)+2.5,yfc);
+	glVertex2i(xfc+(wd/2)+2.5,ht+yfc);
+	glVertex2i(xfc+(wd/2)-2.5,ht+yfc);
+	glEnd();
+	glPopMatrix();			//End 1st cupboard
+
+	glPushMatrix();			//2nd cupboard
+	wd=-160;ht=-70;
+	glTranslatef(980,ceil2-130,0);
+	glBegin(GL_POLYGON);	//ceil
+	glColor3f(00.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(wd,0);
+	glVertex2i(wd+xfc,yfc);
+	glVertex2i(xfc,yfc);
+	glEnd();
+	glBegin(GL_POLYGON);	//side
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(xfc,yfc);
+	glVertex2i(xfc,ht+yfc);
+	glVertex2i(0,ht);
+	glEnd();
+	glBegin(GL_POLYGON);	//front frame
+	glColor3f(0.3796875,0.20484375,0);
+	glVertex2i(xfc,yfc);
+	glVertex2i(wd+xfc,yfc);
+	glVertex2i(wd+xfc,ht+yfc);
+	glVertex2i(xfc,ht+yfc);
+	glEnd();
+	glEnd();
+	glBegin(GL_POLYGON);	//front
+	glColor3f(0.4296875,0.20484375,0);
+	glVertex2i(xfc-fram,yfc-fram);
+	glVertex2i(wd+xfc+fram,yfc-fram);
+	glVertex2i(wd+xfc+fram,ht+yfc+fram);
+	glVertex2i(xfc-fram,ht+yfc+fram);
+	glEnd();
+	glBegin(GL_POLYGON);	//lower cut
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(xfc-fram,ht+yfc+31.5);
+	glVertex2i(xfc-fram,ht+yfc+28.5);
+	glVertex2i(xfc+wd+fram,ht+yfc+28.5);
+	glVertex2i(xfc+wd+fram,ht+yfc+31.5);
+	glEnd();
+	glBegin(GL_POLYGON);	//leg
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glEnd();
+	glBegin(GL_POLYGON);	//leg
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glEnd();
+	glBegin(GL_POLYGON);	//leg
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glEnd();
+	glBegin(GL_POLYGON);	//leg
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glEnd();
+	glBegin(GL_POLYGON);	//leg
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glEnd();
+	glBegin(GL_POLYGON);	//leg
+	glColor3f(0.3125,0.15625,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,0);
+	glEnd();
+	glPopMatrix();			//End 2nd cupboard
+
+	glPushMatrix();			//2nd window
+	glTranslatef(1000,ceil2-30,0);
+	glBegin(GL_POLYGON);
+	wid=-200;hit=-90;fram=7.5;
+	glBegin(GL_POLYGON);//frame
+	glColor3f(0.0,0.0,0.0);
+	glVertex2i(0,0);
+	glVertex2i(wid,0);
+	glVertex2i(wid,hit);
+	glVertex2i(0,hit);
+	glEnd();
+	glBegin(GL_POLYGON);//pic
+	glColor3f(0,0.6,0.7);
+	wid+=fram;hit+=fram;
+	glVertex2i(-fram,-fram);
+	glVertex2i(wid,-fram);
+	glVertex2i(wid,hit);
+	glVertex2i(-fram,hit);
+	glEnd();
+	glPopMatrix();			//End 2nd window
+
+
+
+	glBegin(GL_LINES);						//draw lines
+		glColor3f(0,0,0);//black
+		glPointSize(10.0);
+		glVertex2i(0,ceil1+(wide/3));		//1st cut off ceil in 1st floor
+		glVertex2i(screen_res.x,ceil1+(wide/3));
+
+		glVertex2i(0,fl2l-(wide/3));		//2nd cut off ceil in 1st floor
+		glVertex2i(screen_res.x,fl2l-(wide/3));
+
+		for(int i=-10;i<screen_res.x+50;i+=60)//1st floor ground
+		{
+			glVertex2i(i,ceil1);
+			glVertex2i(i,ceil1+(wide/3));
+		}
+		for(int i=-40;i<screen_res.x+10;i+=60)//1st floor ground
+		{
+			glVertex2i(i,ceil1+(wide/3));
+			glVertex2i(i,fl2l-(wide/3));
+		}
+		for(int i=-10;i<screen_res.x+50;i+=60)//1st floor ground
+		{
+			glVertex2i(i,fl2l-(wide/3));
+			glVertex2i(i,fl2l);
+		}
+
+	glEnd();
+
+	glPushMatrix();			//picture 2
+	wid=60;hit=-10;hit2=-80;fram=7.5;//all *2
+	glTranslatef(600,ceil2-15,0);//Position of the picture
+	glBegin(GL_POLYGON);	//1st side line
+	glColor3f(0,0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,5);
+	glVertex2i(wid-25,hit);
+	glVertex2i(wid-30,hit);
+	glEnd();
+	glBegin(GL_POLYGON);	//2nd side lien
+	glColor3f(0,0,0);
+	glVertex2i(0,0);
+	glVertex2i(0,5);
+	glVertex2i(-wid+25,hit);
+	glVertex2i(-wid+30,hit);
+	glEnd();
+	glBegin(GL_POLYGON);//frame
+	glColor3f(0.8046875,0.76171875,0.26171875);
+	glVertex2i(wid,hit);
+	glVertex2i(-wid,hit);
+	glVertex2i(-wid,hit2);
+	glVertex2i(wid,hit2);
+	glEnd();
+	glBegin(GL_POLYGON);//pic
+	glColor3f(0,0.6,0);
+	wid-=fram;hit-=fram;hit2+=fram;
+	glVertex2i(wid,hit);
+	glVertex2i(-wid,hit);
+	glVertex2i(-wid,hit2);
+	glVertex2i(wid,hit2);
+	glEnd();
+	glPopMatrix();
 	glPushMatrix ( ) ;
 	//glColor3f(0.2,0.5,0.4);
-
 	amr->Display();
-glPopMatrix();
+	glPopMatrix();
+
+
 	glFlush();
 
 }
