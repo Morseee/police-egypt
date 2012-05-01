@@ -7,7 +7,7 @@
 
 #include "Car.h"
 #include "Image.h"
-int level =0;
+int level =1;
 int posx[2]={300,380},posy[2]={560,640};
 int posx2[2]={320,380},posy2[2][2]={{340,400},{780,840}};
 Car::Car(int height , int width ,bool line ,bool upRight , bool hor ,Image *img) {

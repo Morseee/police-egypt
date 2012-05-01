@@ -78,27 +78,41 @@ void myDisplay()
 	else if (level ==1)
 	{
 		glBegin(GL_POLYGON);			//hor.street
-					glColor3f(0.1,0.20,0.30);
-					glVertex2i( 0 , posx2[0] );
-					glVertex2i( 0 , posx2[1] );
-					glVertex2i( screen_res.x  , posx2[1] );
-					glVertex2i( screen_res.x  , posx2[0]  );
-				glEnd();
-				glBegin(GL_POLYGON);			//ver.street1
-					glColor3f(0.3,0.20,0.10);
-					glVertex2i( posy2[0][0] , 0 );
-					glVertex2i( posy2[0][1] , 0 );
-					glVertex2i( posy2[0][1] , screen_res.y );
-					glVertex2i( posy2[0][0] , screen_res.y  );
-				glEnd();
-				glBegin(GL_POLYGON);			//ver.street2
-					glColor3f(0.3,0.20,0.10);
-					glVertex2i( posy2[1][0] , 0 );
-					glVertex2i( posy2[1][1] , 0 );
-					glVertex2i( posy2[1][1] , screen_res.y );
-					glVertex2i( posy2[1][0] , screen_res.y  );
-				glEnd();
-				glPopMatrix ( ) ;
+			glColor3f(0.1,0.20,0.30);
+			glVertex2i( 0 , posx2[0] );
+			glVertex2i( 0 , posx2[1] );
+			glVertex2i( screen_res.x  , posx2[1] );
+			glVertex2i( screen_res.x  , posx2[0]  );
+		glEnd();
+		glBegin(GL_POLYGON);			//ver.street1
+			glColor3f(0.3,0.20,0.10);
+			glVertex2i( posy2[0][0] , 0 );
+			glVertex2i( posy2[0][1] , 0 );
+			glVertex2i( posy2[0][1] , screen_res.y );
+			glVertex2i( posy2[0][0] , screen_res.y  );
+		glEnd();
+		glBegin(GL_POLYGON);			//ver.street2
+			glColor3f(0.3,0.20,0.10);
+			glVertex2i( posy2[1][0] , 0 );
+			glVertex2i( posy2[1][1] , 0 );
+			glVertex2i( posy2[1][1] , screen_res.y );
+			glVertex2i( posy2[1][0] , screen_res.y  );
+		glEnd();
+		glBegin(GL_POLYGON);
+		glColor3f(0.0,1.0,0.0);
+		glVertex2i(posy2[0][1],posx2[0]);
+		glVertex2i(posy2[0][1],posx2[0]-30);
+		glVertex2i(posy2[0][1]+30,posx2[0]-30);
+		glVertex2i(posy2[0][1]+30,posx2[0]);
+		glEnd();
+		glBegin(GL_POLYGON);
+		glColor3f(0.0,1.0,0.0);
+		glVertex2i(posy2[1][0],posx2[0]);
+		glVertex2i(posy2[1][0],posx2[0]-30);
+		glVertex2i(posy2[1][0]-30,posx2[0]-30);
+		glVertex2i(posy2[1][0]-30,posx2[0]);
+		glEnd();
+		glPopMatrix ( ) ;
 	}
 	for(int i=0 ;i<timeLine.size() ;i++)
 		{
@@ -241,7 +255,13 @@ void avoidColl(int val)
 		{
 			if(((temp->swest.x + temp->width) > (prevx-20))  )
 				temp->mov=0;
+			else if(!temp->RED && !temp->RED1)
+						temp->mov=1;
 		}
+		else if(!temp->RED && !temp->RED1)
+								temp->mov=1;
+
+
 		prevx=temp->swest.x;
 		timeLine2.push(temp); // get it back
 	}
@@ -254,7 +274,12 @@ void avoidColl(int val)
 		{
 			if(((temp->swest.x - temp->width) < (prevx+20))  )
 				temp->mov=0;
+			else if(!temp->RED && !temp->RED1)
+						temp->mov=1;
 		}
+		else if(!temp->RED && !temp->RED1)
+								temp->mov=1;
+
 		prevx=temp->swest.x;
 		timeLine3.push(temp); // get it back
 	}
@@ -451,6 +476,7 @@ void RedCheck(int val)
 				Car *temp;
 				temp=timeLine2.front();
 				timeLine2.pop();
+				//temp->mov=1;
 				if(temp->RED)
 				{
 					temp->mov=1;
@@ -463,6 +489,7 @@ void RedCheck(int val)
 				Car *temp;
 				temp=timeLine3.front();
 				timeLine3.pop();
+				//temp->mov=1;
 				if(temp->RED)
 				{
 					temp->mov=1;
@@ -678,10 +705,14 @@ void mouseMove(int click, int state, int x, int y)
 
 
 
-        if(click==GLUT_LEFT_BUTTON )
+        if(click==GLUT_LEFT_BUTTON && state==GLUT_DOWN )
         {
-        	cout <<x << y<< endl;
-
+    		//glVertex2i(posy2[0][1],posx2[0]);
+        	cout << x <<' '  << y;
+    		if(x>400 && x<430 && y>380 && y<400)
+    			RED=!RED;
+    		if(x>750 && x<780 && y>380 && y<400)
+    		    RED1=!RED1;
         }
 
 
@@ -690,7 +721,7 @@ void mouseMove(int click, int state, int x, int y)
 int main (int argc,char ** argv) {
     screen_res.x=1200;
     screen_res.y=700;
-    level = 0;
+    level = 1;
     //Car::lev=0;
     if(level==1)
     {
@@ -702,7 +733,7 @@ int main (int argc,char ** argv) {
 	img = new Image("background.bmp");
 	img1 = new Image("carleft.bmp");
 	img2 = new Image("carfront.bmp");
-	RED=1;
+	RED=0;
     RED1=0;
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	glutInit(&argc,argv);
